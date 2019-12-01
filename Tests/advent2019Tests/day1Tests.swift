@@ -15,14 +15,8 @@ final class day1Tests: XCTestCase {
         XCTAssertEqual(totalFuelRequirements(moduleMass: 100756), 50346)
     }
     
-    func testDay1() {
-        XCTAssertEqual(day1task1(), 3452245)
-        XCTAssertEqual(day1task2(), 5175499)
-    }
-
     static var allTests = [
         ("Day 1: calculate fuel requirements", testFuelRequirements),
         ("Day 1: calculate total fuel requirements", testTotalFuelRequirements),
-        ("Day 1", testDay1),
     ]
 }

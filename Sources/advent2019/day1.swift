@@ -119,14 +119,18 @@ let input = """
 140290
 """
 
-func day1task1() -> Int {
+// TODO: extract lines extension
+// TODO: parametrize the code
+// TODO: read input from file
+
+public func day1task1() -> Int {
     return input
         .split { $0.isNewline }
         .map { Int($0)! }
         .reduce(0) { $0 + fuelRequirements(mass: $1) }
 }
 
-func day1task2() -> Int {
+public func day1task2() -> Int {
     return input
         .split { $0.isNewline }
         .map { Int($0)! }
