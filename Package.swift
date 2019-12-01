@@ -10,6 +10,9 @@ let package = Package(
         .library(
             name: "advent2019",
             targets: ["advent2019"]),
+        .executable(
+            name: "runner",
+            targets: ["runner"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -21,6 +24,9 @@ let package = Package(
         .target(
             name: "advent2019",
             dependencies: []),
+        .target(
+            name: "runner",
+            dependencies: ["advent2019"]),
         .testTarget(
             name: "advent2019Tests",
             dependencies: ["advent2019"]),
