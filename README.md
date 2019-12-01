@@ -1,3 +1,3 @@
-# advent2019
+# Advent of Code in Swift
 
-A description of this package.
+Learning Swift using [Advent of code](https://adventofcode.com) puzzles.
