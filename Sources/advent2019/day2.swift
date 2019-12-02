@@ -48,9 +48,11 @@ public func day2task1(input: String) throws -> Int {
 class CannotFindNounAndVerb : Error {}
 
 public func day2task2(input: String, desiredOutput: Int) throws -> Int {
+    let program = parseProgram(input)
+
     for noun in 0...99 {
         for verb in 0...99 {
-            let output = try parseProgram(input).execute(noun: noun, verb: verb)[0]
+            let output = try program.execute(noun: noun, verb: verb)[0]
             if (output == desiredOutput) {
                 return noun * 100 + verb
             }
