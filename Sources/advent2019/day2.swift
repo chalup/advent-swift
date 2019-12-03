@@ -13,8 +13,8 @@ class IntcodeProgram {
     
     func execute(noun: Int? = nil, verb: Int? = nil) throws -> [Int] {
         var memory = initialMemory
-        if (noun != nil) { memory[1] = noun! }
-        if (verb != nil) { memory[2] = verb! }
+        if let noun = noun { memory[1] = noun }
+        if let verb = verb { memory[2] = verb }
         
         var ip = 0
         
