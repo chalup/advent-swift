@@ -21,8 +21,8 @@ do {
     advent(day: 1, task: 2) { day1task2(input: day1) }
     try advent(day: 2, task: 1) { try day2task1(input: day2) }
     try advent(day: 2, task: 2) { try day2task2(input: day2, desiredOutput: 19690720) }
-    try advent(day: 3, task: 1) { try distanceToNearestIntersection(wireSpecs: day3) }
-    try advent(day: 3, task: 2) { try shortestIntersectionPath(wireSpecs: day3) }
+    advent(day: 3, task: 1) { distanceToNearestIntersection(wireSpecs: day3) }
+    advent(day: 3, task: 2) { shortestIntersectionPath(wireSpecs: day3) }
 } catch {
     print("uh oh :( \(error)")
 }

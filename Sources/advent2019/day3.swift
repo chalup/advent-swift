@@ -33,14 +33,14 @@ func match(text: String, pattern: String) throws -> [String] {
 class UnknownDirection: Error {
 }
 
-func parseWire(origin: Point, wireSpec: String) throws -> [Point] {
+func parseWire(origin: Point, wireSpec: String) -> [Point] {
     var points: [Point] = []
     var p = origin
     
-    try wireSpec
+    wireSpec
             .split(separator: ",").map(String.init)
             .map { (segment: String) -> WireSegment in
-                let data = try match(text: String(segment), pattern: "(.)(\\d+)")
+                let data = try! match(text: String(segment), pattern: "(.)(\\d+)")
                 return WireSegment(direction: data[1], length: data[2].asInt())
             }
             .forEach { segment in
@@ -50,12 +50,12 @@ func parseWire(origin: Point, wireSpec: String) throws -> [Point] {
                     case "L": return Vector(dx: -1, dy: 0)
                     case "U": return Vector(dx: 0, dy: +1)
                     case "D": return Vector(dx: 0, dy: -1)
-                    default: throw UnknownDirection()
+                    default: fatalError("Unknown direction: '\(segment.direction)'")
                     }
-                }
+                }()
 
                 for _ in 1...segment.length {
-                    p += try vector()
+                    p += vector
                     points.append(p)
                 }
             }
@@ -73,22 +73,22 @@ func wiresCrossings(wires: [[Point]]) -> Set<Point> {
     return wires.dropFirst().reduce(Set(first)) { $0.intersection($1) }
 }
 
-public func distanceToNearestIntersection(wireSpecs: [String]) throws -> Int {
+public func distanceToNearestIntersection(wireSpecs: [String]) -> Int {
     let origin = Point(x:0, y:0 )
     
-    let wires = try wireSpecs
-        .map { try parseWire(origin: origin, wireSpec: $0) }
+    let wires = wireSpecs
+        .map { parseWire(origin: origin, wireSpec: $0) }
     
     return wiresCrossings(wires: wires)
         .map { manhattanDistance(origin, $0) }
         .min()!
 }
 
-public func shortestIntersectionPath(wireSpecs: [String]) throws -> Int {
+public func shortestIntersectionPath(wireSpecs: [String]) -> Int {
     let origin = Point(x:0, y:0 )
     
-    let wires = try wireSpecs
-        .map { try parseWire(origin: origin, wireSpec: $0) }
+    let wires = wireSpecs
+        .map { parseWire(origin: origin, wireSpec: $0) }
         
     let pointsLookup = wires
         .map { $0.enumerated().reduce(into: [:]) { (result, enumeratedPoint) in result[enumeratedPoint.element] = enumeratedPoint.offset + 1 } }
