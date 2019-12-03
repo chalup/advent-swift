@@ -91,10 +91,13 @@ public func shortestIntersectionPath(wireSpecs: [String]) throws -> Int {
     
     let wires = try wireSpecs
         .map { try parseWire(origin: origin, wireSpec: $0) }
+        
+    let pointsLookup = wires
+        .map { $0.enumerated().reduce(into: [:]) { (result, enumeratedPoint) in result[enumeratedPoint.element] = enumeratedPoint.offset + 1 } }
     
     return wiresCrossings(wires: wires)
         .map { crossing in
-            wires.map { $0.firstIndex(of: crossing)! + 1 }.reduce(0, +)
+            pointsLookup.map { $0[crossing]! }.reduce(0, +)
         }
         .min()!
 }
