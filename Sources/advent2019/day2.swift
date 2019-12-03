@@ -38,7 +38,7 @@ class IntcodeProgram {
 }
 
 func parseProgram(_ input: String) -> IntcodeProgram {
-    return IntcodeProgram(initialProgram: input.split(separator: ",").map { Int($0)! })
+    return IntcodeProgram(initialProgram: input.split(separator: ",").map { String($0).asInt() })
 }
 
 public func day2task1(input: String) throws -> Int {

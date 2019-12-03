@@ -43,7 +43,7 @@ func parseWire(origin: Point, wireSpec: String) throws -> [Point] {
             .split(separator: ",").map(String.init)
             .map { (segment: String) -> WireSegment in
                 let data = try match(text: String(segment), pattern: "(.)(\\d+)")
-                return WireSegment(direction: data[1], length: Int(data[2])!)
+                return WireSegment(direction: data[1], length: data[2].asInt())
             }
             .forEach { segment in
                 let vector = { () -> Vector in

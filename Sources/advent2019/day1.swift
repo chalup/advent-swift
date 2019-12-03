@@ -17,7 +17,7 @@ func totalFuelRequirements(moduleMass: Int) -> Int {
 }
 
 fileprivate func parseInput(_ input: [String]) -> [Int] {
-    return input.map { Int($0)! }
+    return input.map { $0.asInt() }
 }
 
 public func day1task1(input: [String]) -> Int {

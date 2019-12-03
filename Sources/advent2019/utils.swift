@@ -8,4 +8,9 @@ public extension String {
     func singleLine() -> String {
         return self.trimmingCharacters(in: .whitespacesAndNewlines)
     }
+    
+    func asInt() -> Int {
+        guard let number = Int(self) else { fatalError("'\(self)' is not a number") }
+        return number
+    }
 }
