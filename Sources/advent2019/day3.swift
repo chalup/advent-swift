@@ -60,8 +60,8 @@ func parseWire(origin: Point, wireSpec: String) -> [Point] {
     return points
 }
 
-func manhattanDistance(_ a: Point, _ b: Point) -> Int {
-    return abs(a.x - b.x) + abs(a.y - b.y)
+func manhattanDistance(to other: Point) -> (Point) -> Int {
+    return { point in abs(point.x - other.x) + abs(point.y - other.y) }
 }
 
 func wiresCrossings(wires: [[Point]]) -> Set<Point> {
@@ -77,7 +77,7 @@ public func distanceToNearestIntersection(wireSpecs: [String]) -> Int {
         .map { parseWire(origin: origin, wireSpec: $0) }
     
     return wiresCrossings(wires: wires)
-        .map { manhattanDistance(origin, $0) }
+        .map(manhattanDistance(to: origin))
         .min()!
 }
 
