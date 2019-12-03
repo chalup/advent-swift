@@ -70,9 +70,9 @@ func manhattanDistance(_ a: Point, _ b: Point) -> Int {
 }
 
 func wiresCrossings(wires: [[Point]]) -> Set<Point> {
-    let head = Set(wires.first!)
+    guard let first = wires.first else { return [] }
     
-    return wires.dropFirst().reduce(head) { $0.intersection($1) }
+    return wires.dropFirst().reduce(Set(first)) { $0.intersection($1) }
 }
 
 public func distanceToNearestIntersection(wireSpecs: [String]) throws -> Int {
