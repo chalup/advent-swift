@@ -1,14 +1,12 @@
 import Foundation
 
 struct Point : Hashable {
-    let x: Int
-    let y: Int
+    var x: Int
+    var y: Int
     
-    func translated(by vector: Vector) -> Point {
-        return Point(
-            x: self.x + vector.dx,
-            y: self.y + vector.dy
-        )
+    static func +=(point: inout Point, vector: Vector) {
+        point.x += vector.dx
+        point.y += vector.dy
     }
 }
 
@@ -57,7 +55,7 @@ func parseWire(origin: Point, wireSpec: String) throws -> [Point] {
                 }
 
                 for _ in 1...segment.length {
-                    p = p.translated(by: try vector())
+                    p += try vector()
                     points.append(p)
                 }
             }
