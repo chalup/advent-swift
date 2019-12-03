@@ -30,9 +30,6 @@ func match(text: String, pattern: String) throws -> [String] {
     }
 }
 
-class UnknownDirection: Error {
-}
-
 func parseWire(origin: Point, wireSpec: String) -> [Point] {
     var points: [Point] = []
     var p = origin
