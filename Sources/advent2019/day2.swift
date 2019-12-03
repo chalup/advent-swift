@@ -45,7 +45,9 @@ public func day2task1(input: String) throws -> Int {
     return try parseProgram(input).execute(noun: 12, verb: 2)[0]
 }
 
-class CannotFindNounAndVerb : Error {}
+enum Day2Error : Error {
+    case cannotFindNounAndVerb
+}
 
 public func day2task2(input: String, desiredOutput: Int) throws -> Int {
     let program = parseProgram(input)
@@ -58,5 +60,5 @@ public func day2task2(input: String, desiredOutput: Int) throws -> Int {
             }
         }
     }
-    throw CannotFindNounAndVerb()
+    throw Day2Error.cannotFindNounAndVerb
 }
