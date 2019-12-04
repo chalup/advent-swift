@@ -23,6 +23,8 @@ do {
     try advent(day: 2, task: 2) { try day2task2(input: day2, desiredOutput: 19690720) }
     advent(day: 3, task: 1) { distanceToNearestIntersection(wireSpecs: day3) }
     advent(day: 3, task: 2) { shortestIntersectionPath(wireSpecs: day3) }
+    advent(day: 4, task: 1) { day4task1(range: 272091...815432) }
+    advent(day: 4, task: 2) { day4task2(range: 272091...815432) }
 } catch {
     print("uh oh :( \(error)")
 }
