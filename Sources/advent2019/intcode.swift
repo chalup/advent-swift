@@ -1,11 +1,16 @@
 import Foundation
 
-enum IntcodeError : Error {
-    case invalidOpcode(opcode: Int)
+enum InterpreterError : Error {
+    case invalidOpcode(ip: Int, opcode: Int, dump: [Int])
+}
+
+enum ProgramResult {
+    case finished(finalState: [Int])
+    case executionError(error: InterpreterError)
 }
 
 class IntcodeInterpreter {
-    static func execute(_ program: [Int]) throws -> [Int] {
+    static func execute(_ program: [Int]) -> ProgramResult {
         var memory = program
         var ip = 0
         
@@ -20,9 +25,9 @@ class IntcodeInterpreter {
                 memory[memory[ip + 3]] = memory[memory[ip + 1]] * memory[memory[ip + 2]]
                 ip += 4
             case 99:
-                return memory
+                return ProgramResult.finished(finalState: memory)
             default:
-                throw IntcodeError.invalidOpcode(opcode: opcode)
+                return ProgramResult.executionError(error: InterpreterError.invalidOpcode(ip: ip, opcode: opcode, dump: memory))
             }
         }
     }

@@ -13,7 +13,13 @@ func tweak(program: [Int], noun: Int, verb: Int) -> [Int] {
 
 public func day2task1(input: String) throws -> Int {
     let program = tweak(program: parseProgram(input), noun: 12, verb: 2)
-    return try IntcodeInterpreter.execute(program)[0]
+    
+    switch IntcodeInterpreter.execute(program) {
+    case .finished(let finalState):
+        return finalState[0]
+    case .executionError(let error):
+        throw error
+    }
 }
 
 enum Day2Error : Error {
@@ -25,9 +31,14 @@ public func day2task2(input: String, desiredOutput: Int) throws -> Int {
 
     for noun in 0...99 {
         for verb in 0...99 {
-            let output = try IntcodeInterpreter.execute(tweak(program: program, noun: noun, verb: verb))[0]
-            if (output == desiredOutput) {
-                return noun * 100 + verb
+            let program = tweak(program: program, noun: noun, verb: verb)
+
+            switch IntcodeInterpreter.execute(program) {
+            case .finished(let finalState):
+                if (finalState[0] == desiredOutput) {
+                    return noun * 100 + verb
+                }
+            case .executionError: Void()
             }
         }
     }
