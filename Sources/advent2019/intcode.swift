@@ -4,18 +4,9 @@ enum IntcodeError : Error {
     case invalidOpcode(opcode: Int)
 }
 
-class IntcodeProgram {
-    let initialMemory: [Int]
-    
-    init(initialProgram: [Int]) {
-        initialMemory = initialProgram
-    }
-    
-    func execute(noun: Int? = nil, verb: Int? = nil) throws -> [Int] {
-        var memory = initialMemory
-        if let noun = noun { memory[1] = noun }
-        if let verb = verb { memory[2] = verb }
-        
+class IntcodeInterpreter {
+    static func execute(_ program: [Int]) throws -> [Int] {
+        var memory = program
         var ip = 0
         
         while true {
