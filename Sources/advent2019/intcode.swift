@@ -15,39 +15,34 @@ enum InterpreterStatus {
     case Error(error: InterpreterError)
 }
 
-struct State {
-    var ip = 0
-    var memory: [Int]
-    var status: InterpreterStatus = InterpreterStatus.Running
+class IntcodeInterpreter {
+    private var ip = 0
+    private var memory: [Int]
+    private var status: InterpreterStatus = InterpreterStatus.Running
     
-    init(program: [Int]) {
+    init(_ program: [Int]) {
         memory = program
     }
     
-}
-
-class IntcodeInterpreter {
-    static func execute(_ program: [Int]) -> ProgramResult {
-        var state = State(program: program)
-        
+    func execute() -> ProgramResult {
         while true {
-            switch state.status {
+            switch status {
             case .Running:
-                let opcode = state.memory[state.ip]
+                let opcode = memory[ip]
                 
                 switch opcode {
                 case 1:
-                    state.memory[state.memory[state.ip + 3]] = state.memory[state.memory[state.ip + 1]] + state.memory[state.memory[state.ip + 2]]
-                    state.ip += 4
+                    memory[memory[ip + 3]] = memory[memory[ip + 1]] + memory[memory[ip + 2]]
+                    ip += 4
                 case 2:
-                    state.memory[state.memory[state.ip + 3]] = state.memory[state.memory[state.ip + 1]] * state.memory[state.memory[state.ip + 2]]
-                    state.ip += 4
+                    memory[memory[ip + 3]] = memory[memory[ip + 1]] * memory[memory[ip + 2]]
+                    ip += 4
                 case 99:
-                    state.status = InterpreterStatus.Halted
+                    status = InterpreterStatus.Halted
                 default:
-                    state.status = InterpreterStatus.Error(error: InterpreterError.invalidOpcode(ip: state.ip, opcode: opcode, dump: state.memory))
+                    status = InterpreterStatus.Error(error: InterpreterError.invalidOpcode(ip: ip, opcode: opcode, dump: memory))
                 }
-            case .Halted: return ProgramResult.finished(finalState: state.memory)
+            case .Halted: return ProgramResult.finished(finalState: memory)
             case .Error(let error): return ProgramResult.executionError(error: error)
             }
         }

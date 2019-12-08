@@ -3,7 +3,7 @@ import XCTest
 
 final class day2Tests: XCTestCase {
     private func runProgram(_ program: String) throws -> [Int] {
-        let result = IntcodeInterpreter.execute(parseProgram(program))
+        let result = IntcodeInterpreter(parseProgram(program)).execute()
         
         switch result {
         case .executionError(let error): throw error
