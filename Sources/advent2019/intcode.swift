@@ -3,15 +3,18 @@ import Foundation
 enum InterpreterError : Error {
     case invalidOpcode(ip: Int, opcode: Int, dump: [Int])
     case usingOutParamInImmediateMode(ip: Int, opcode: Int, n: Int, dump: [Int])
+    case usingInInstructionWithEmptyInputs(ip: Int, dump: [Int])
 }
 
 enum ProgramResult {
     case finished(finalState: [Int])
     case executionError(error: InterpreterError)
+    case generatedOutput(output: Int)
 }
 
 enum InterpreterStatus {
     case Running
+    case emittingOutput(value: Int)
     case Halted
     case Error(error: InterpreterError)
 }
@@ -60,6 +63,8 @@ class IntcodeInterpreter {
     }
     
     func execute() -> ProgramResult {
+        status = .Running
+        
         while true {
             switch status {
             case .Running:
@@ -72,6 +77,16 @@ class IntcodeInterpreter {
                 case 2:
                     setOutParam(3, value: inParam(1) * inParam(2))
                     ip += 4
+                case 3:
+                    if (inputs.isEmpty) {
+                        status = InterpreterStatus.Error(error: InterpreterError.usingInInstructionWithEmptyInputs(ip: ip, dump: memory))
+                    } else {
+                        setOutParam(1, value: inputs.remove(at: 0) )
+                        ip += 2
+                    }
+                case 4:
+                    status = InterpreterStatus.emittingOutput(value: inParam(1))
+                    ip += 2
                 case 99:
                     status = InterpreterStatus.Halted
                 default:
@@ -79,6 +94,7 @@ class IntcodeInterpreter {
                 }
             case .Halted: return ProgramResult.finished(finalState: memory)
             case .Error(let error): return ProgramResult.executionError(error: error)
+            case .emittingOutput(let value): return ProgramResult.generatedOutput(output: value)
             }
         }
     }

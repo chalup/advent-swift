@@ -19,11 +19,14 @@ public func day2task1(input: String) throws -> Int {
         return finalState[0]
     case .executionError(let error):
         throw error
+    case .generatedOutput:
+        throw Day2Error.unexpectedOutput
     }
 }
 
 enum Day2Error : Error {
     case cannotFindNounAndVerb
+    case unexpectedOutput
 }
 
 public func day2task2(input: String, desiredOutput: Int) throws -> Int {
@@ -38,7 +41,8 @@ public func day2task2(input: String, desiredOutput: Int) throws -> Int {
                 if (finalState[0] == desiredOutput) {
                     return noun * 100 + verb
                 }
-            case .executionError: Void()
+            case .executionError: break
+            case .generatedOutput: throw Day2Error.unexpectedOutput
             }
         }
     }

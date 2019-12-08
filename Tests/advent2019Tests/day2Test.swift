@@ -8,6 +8,7 @@ final class day2Tests: XCTestCase {
         switch result {
         case .executionError(let error): throw error
         case .finished(let finalState): return finalState
+        case .generatedOutput: fatalError("Unexpected output!")
         }
     }
     
