@@ -89,6 +89,18 @@ class IntcodeInterpreter {
                 case 4:
                     status = InterpreterStatus.emittingOutput(value: inParam(1))
                     ip += 2
+                case 5:
+                    if (inParam(1) != 0) { ip = inParam(2) }
+                    else { ip += 3 }
+                case 6:
+                    if (inParam(1) == 0) { ip = inParam(2) }
+                    else { ip += 3 }
+                case 7:
+                    setOutParam(3, value: inParam(1) < inParam(2) ? 1 : 0)
+                    ip += 4
+                case 8:
+                    setOutParam(3, value: inParam(1) == inParam(2) ? 1 : 0)
+                    ip += 4
                 case 99:
                     status = InterpreterStatus.Halted
                 default:
