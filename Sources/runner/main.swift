@@ -30,6 +30,7 @@ do {
     try advent(day: 5, task: 1) { try day5task1(program: day5) }
     try advent(day: 5, task: 2) { try day5task2(program: day5) }
     advent(day: 6, task: 1) { day6task1(input: day6) }
+    advent(day: 6, task: 2) { day6task2(input: day6) }
 } catch {
     print("uh oh :( \(error)")
 }

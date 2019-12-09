@@ -5,7 +5,7 @@ struct MapEntry {
     let childId: String
 }
 
-enum MapObject {
+enum MapObject : Equatable {
     case CenterOfMass
     indirect case OrbitalBody(id: String, parent: MapObject)
 }
@@ -18,7 +18,7 @@ func orbitalPath(object: MapObject) -> [MapObject] {
         result.append(current)
         
         switch current {
-        case .CenterOfMass: return result
+        case .CenterOfMass: return Array(result.dropFirst())
         case .OrbitalBody(_, let parent): current = parent
         }
     }
@@ -60,5 +60,31 @@ public func day6task1(input: [String]) -> Int {
     let entries = parseInput(input)
     let map = buildMap(entries)
     
-    return map.values.map { orbitalPath(object: $0).count - 1 }.reduce(0, +)
+    return map.values.map { orbitalPath(object: $0).count }.reduce(0, +)
+}
+
+public func day6task2(input: [String]) -> Int {
+    let entries = parseInput(input)
+    let map = buildMap(entries)
+    
+    let yourPath = orbitalPath(object: map["YOU"]!)
+    let santaPath = orbitalPath(object: map["SAN"]!)
+    
+    let firstCommonAncestor = firstCommonBody(pathA: yourPath, pathB: santaPath)
+    
+    return yourPath.firstIndex(of: firstCommonAncestor)! + santaPath.firstIndex(of: firstCommonAncestor)!
+}
+
+private func firstCommonBody(pathA: [MapObject], pathB: [MapObject]) -> MapObject {
+    var result = MapObject.CenterOfMass
+    
+    for (a, b) in zip(pathA.reversed(), pathB.reversed()) {
+        if (a == b) {
+            result = a
+        } else {
+            break
+        }
+    }
+    
+    return result
 }
