@@ -17,6 +17,7 @@ do {
     let day2 = try String(contentsOfFile: dir + "day2.txt").singleLine()
     let day3 = try String(contentsOfFile: dir + "day3.txt").lines()
     let day5 = try String(contentsOfFile: dir + "day5.txt").singleLine()
+    let day6 = try String(contentsOfFile: dir + "day6.txt").lines()
 
     advent(day: 1, task: 1) { day1task1(input: day1) }
     advent(day: 1, task: 2) { day1task2(input: day1) }
@@ -28,6 +29,7 @@ do {
     advent(day: 4, task: 2) { day4task2(range: 272091...815432) }
     try advent(day: 5, task: 1) { try day5task1(program: day5) }
     try advent(day: 5, task: 2) { try day5task2(program: day5) }
+    advent(day: 6, task: 1) { day6task1(input: day6) }
 } catch {
     print("uh oh :( \(error)")
 }
