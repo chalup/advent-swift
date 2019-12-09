@@ -24,6 +24,8 @@ enum ParamMode {
     case position
 }
 
+func parseProgram(_ input: String) -> [Int] { input.split(separator: ",").map { String($0).asInt() } }
+
 class IntcodeInterpreter {
     private var ip = 0
     private var memory: [Int]

@@ -1,7 +1,5 @@
 import Foundation
 
-func parseProgram(_ input: String) -> [Int] { input.split(separator: ",").map { String($0).asInt() } }
-
 func tweak(program: [Int], noun: Int, verb: Int) -> [Int] {
     var tweakedProgram = program
     
