@@ -21,26 +21,20 @@ public func day7task1(programInput: String) -> Int {
 }
 
 extension Collection {
+    private func destructure() -> (Element, SubSequence)? {
+        guard let head = first else { return nil }
+        return (head, self[index(after: startIndex)..<endIndex])
+    }
+    
     func permutations() -> [[Element]] {
-        func helper(results: inout [[Element]], head: [Element], elements: [Element]) {
-            if (elements.isEmpty) {
-                results.append(head)
-            } else {
-                for i in elements.indices {
-                    var newElements = elements
-                    
-                    let e = newElements.remove(at: i)
-                    
-                    var newHead = head
-                    newHead.append(e)
-                    
-                    helper(results: &results, head: newHead, elements: newElements)
-                }
+        guard let (head, tail) = self.destructure() else { return [[]] }
+        
+        return tail.perms().flatMap { others in
+            return (others.startIndex...others.endIndex).map { index in
+                var result = others
+                result.insert(head, at: index)
+                return result
             }
         }
-        
-        var result: [[Element]] = []
-        helper(results: &result, head: [], elements: Array(self))
-        return result
     }
 }
